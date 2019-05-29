@@ -1,0 +1,4 @@
+﻿  STEP5.cpp
+  C:\Users\rikaz\Desktop\DirectX\Include\dinput.h: DIRECTINPUT_VERSION undefined. Defaulting to version 0x0800
+  C:\Users\rikaz\Desktop\Exercise\STEP5_Collision_jugment\STEP5.cpp(153) : warning C4715: 'InitD3d': 値を返さないコントロール パスがあります。
+  STEP5_Collision_jugment.vcxproj -> C:\Users\rikaz\Desktop\Exercise\Debug\STEP5_Collision_jugment.exe
