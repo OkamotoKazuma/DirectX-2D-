@@ -1,4 +1,1 @@
-﻿  STEP4.cpp
-  C:\Users\rikaz\Desktop\DirectX\Include\dinput.h: DIRECTINPUT_VERSION undefined. Defaulting to version 0x0800
-  C:\Users\rikaz\Desktop\Exercise\STEP4_Get_keyboard_State\STEP4.cpp(146) : warning C4715: 'InitD3d': 値を返さないコントロール パスがあります。
-  STEP4_Get_keyboard_State.vcxproj -> C:\Users\rikaz\Desktop\Exercise\Debug\STEP4_Get_keyboard_State.exe
+﻿  STEP4_Get_keyboard_State.vcxproj -> C:\Users\rikaz\Desktop\Exercise\Debug\STEP4_Get_keyboard_State.exe

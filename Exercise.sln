@@ -13,6 +13,12 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "STEP4_Get_keyboard_State", 
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "STEP5_Collision_jugment", "STEP5_Collision_jugment\STEP5_Collision_jugment.vcxproj", "{4F0A36EC-DD56-4F28-BFC7-40A28AAF351F}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "GameLib_Texture", "..\GameLib\GameLib_Texture\GameLib_Texture.vcxproj", "{E2FD1060-454D-4808-96E7-AAFC72F9CACF}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "GameLib_Move", "..\GameLib\GameLib_Move\GameLib_Move.vcxproj", "{27B2DADF-EDED-4308-85D7-2CFE2A57E2FB}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "STEP6_Jump_Processing", "STEP6_Jump_Processing\STEP6_Jump_Processing.vcxproj", "{EF8D7FBA-12C4-42B3-8B18-981426F3BA92}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -61,6 +67,30 @@ Global
 		{4F0A36EC-DD56-4F28-BFC7-40A28AAF351F}.Release|x64.Build.0 = Release|x64
 		{4F0A36EC-DD56-4F28-BFC7-40A28AAF351F}.Release|x86.ActiveCfg = Release|Win32
 		{4F0A36EC-DD56-4F28-BFC7-40A28AAF351F}.Release|x86.Build.0 = Release|Win32
+		{E2FD1060-454D-4808-96E7-AAFC72F9CACF}.Debug|x64.ActiveCfg = Debug|x64
+		{E2FD1060-454D-4808-96E7-AAFC72F9CACF}.Debug|x64.Build.0 = Debug|x64
+		{E2FD1060-454D-4808-96E7-AAFC72F9CACF}.Debug|x86.ActiveCfg = Debug|Win32
+		{E2FD1060-454D-4808-96E7-AAFC72F9CACF}.Debug|x86.Build.0 = Debug|Win32
+		{E2FD1060-454D-4808-96E7-AAFC72F9CACF}.Release|x64.ActiveCfg = Release|x64
+		{E2FD1060-454D-4808-96E7-AAFC72F9CACF}.Release|x64.Build.0 = Release|x64
+		{E2FD1060-454D-4808-96E7-AAFC72F9CACF}.Release|x86.ActiveCfg = Release|Win32
+		{E2FD1060-454D-4808-96E7-AAFC72F9CACF}.Release|x86.Build.0 = Release|Win32
+		{27B2DADF-EDED-4308-85D7-2CFE2A57E2FB}.Debug|x64.ActiveCfg = Debug|x64
+		{27B2DADF-EDED-4308-85D7-2CFE2A57E2FB}.Debug|x64.Build.0 = Debug|x64
+		{27B2DADF-EDED-4308-85D7-2CFE2A57E2FB}.Debug|x86.ActiveCfg = Debug|Win32
+		{27B2DADF-EDED-4308-85D7-2CFE2A57E2FB}.Debug|x86.Build.0 = Debug|Win32
+		{27B2DADF-EDED-4308-85D7-2CFE2A57E2FB}.Release|x64.ActiveCfg = Release|x64
+		{27B2DADF-EDED-4308-85D7-2CFE2A57E2FB}.Release|x64.Build.0 = Release|x64
+		{27B2DADF-EDED-4308-85D7-2CFE2A57E2FB}.Release|x86.ActiveCfg = Release|Win32
+		{27B2DADF-EDED-4308-85D7-2CFE2A57E2FB}.Release|x86.Build.0 = Release|Win32
+		{EF8D7FBA-12C4-42B3-8B18-981426F3BA92}.Debug|x64.ActiveCfg = Debug|x64
+		{EF8D7FBA-12C4-42B3-8B18-981426F3BA92}.Debug|x64.Build.0 = Debug|x64
+		{EF8D7FBA-12C4-42B3-8B18-981426F3BA92}.Debug|x86.ActiveCfg = Debug|Win32
+		{EF8D7FBA-12C4-42B3-8B18-981426F3BA92}.Debug|x86.Build.0 = Debug|Win32
+		{EF8D7FBA-12C4-42B3-8B18-981426F3BA92}.Release|x64.ActiveCfg = Release|x64
+		{EF8D7FBA-12C4-42B3-8B18-981426F3BA92}.Release|x64.Build.0 = Release|x64
+		{EF8D7FBA-12C4-42B3-8B18-981426F3BA92}.Release|x86.ActiveCfg = Release|Win32
+		{EF8D7FBA-12C4-42B3-8B18-981426F3BA92}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

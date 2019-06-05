@@ -1,7 +1,8 @@
 #include <windows.h>
 #include <d3dx9.h>
 #include <dinput.h>
-#include "STEP5.h"
+#include "GameLib_Move.h"
+#include "GameLib_Texture.h"
 
 #define CharacterMax 2
 
@@ -142,9 +143,14 @@ HRESULT InitD3d(HWND hWnd)
 	}
 
 	//「テクスチャオブジェクトの作成」
-	for (int i = 0; i < CharacterMax; i++)
+	//for (int i = 0; i < CharacterMax; i++)
 	{
-		if (FAILED(D3DXCreateTextureFromFile(pDevice, FileName[i], &pTexture[i])))
+		if (FAILED(D3DXCreateTextureFromFile(pDevice, FileName[0], &pTexture[0])))
+		{
+			MessageBox(0, "テクスチャの作成に失敗しました", "", MB_OK);
+			return E_FAIL;
+		}
+		if(FAILED(D3DXCreateTextureFromFile(pDevice, FileName[1], &pTexture[1])))
 		{
 			MessageBox(0, "テクスチャの作成に失敗しました", "", MB_OK);
 			return E_FAIL;
@@ -184,19 +190,21 @@ HRESULT InitDinput(HWND hWnd)
 	return S_OK;
 }
 
-CUSTOM_VERTEX Position[CharacterMax][4] = { {
+CUSTOMVERTEX Pos_Plane[4] = {
 	// 飛行機
-			{170.0f, 110.0f, 0.0f, 1.0f, D3DCOLOR_RGBA(255,255,255,0), 0.0f, 0.0f}, //左上
-			{470.0f, 110.0f, 0.0f, 1.0f, D3DCOLOR_RGBA(255,255,255,0), 1.0f, 0.0f}, //右上
-			{470.0f, 410.0f, 0.0f, 1.0f, D3DCOLOR_RGBA(255,255,255,0), 1.0f, 1.0f}, //右下
-			{170.0f, 410.0f, 0.0f, 1.0f, D3DCOLOR_RGBA(255,255,255,0), 0.0f, 1.0f}  //左下
-}, {
+			{170.0f, 110.0f, 0.0f, 1.0f, D3DCOLOR_RGBA(255, 255, 255, 0), 0.0f, 0.0f}, //左上
+			{370.0f, 110.0f, 0.0f, 1.0f, D3DCOLOR_RGBA(255, 255, 255, 0), 1.0f, 0.0f}, //右上
+			{370.0f, 310.0f, 0.0f, 1.0f, D3DCOLOR_RGBA(255, 255, 255, 0), 1.0f, 1.0f}, //右下
+			{170.0f, 310.0f, 0.0f, 1.0f, D3DCOLOR_RGBA(255, 255, 255, 0), 0.0f, 1.0f}  //左下
+};
+
+CUSTOMVERTEX Pos_Bomb[4] = {
 	// 爆弾
-			{0.0f, 0.0f, 0.0f, 1.0f, D3DCOLOR_RGBA(255,255,255,0), 0.0f, 0.0f},
-			{100.0f, 0.0f, 0.0f, 1.0f, D3DCOLOR_RGBA(255, 255, 255, 0), 1.0f, 0.0f},
-			{100.0f, 100.0f, 0.0f, 1.0f, D3DCOLOR_RGBA(255, 255, 255, 0), 1.0f, 1.0f},
-			{0.0f, 100.0f, 0.0f, 1.0f, D3DCOLOR_RGBA(255, 255, 255, 0), 0.0f, 1.0f}
-} };
+			{50.0f, 110.0f, 0.0f, 1.0f, D3DCOLOR_RGBA(255, 255, 255, 0), 0.0f, 0.0f},
+			{150.0f, 110.0f, 0.0f, 1.0f, D3DCOLOR_RGBA(255, 255, 255, 0), 1.0f, 0.0f},
+			{150.0f, 210.0f, 0.0f, 1.0f, D3DCOLOR_RGBA(255, 255, 255, 0), 1.0f, 1.0f},
+			{50.0f, 210.0f, 0.0f, 1.0f, D3DCOLOR_RGBA(255, 255, 255, 0), 0.0f, 1.0f}
+};
 
 // アプリケーション処理関数
 VOID AppProcess()
@@ -210,44 +218,27 @@ VOID AppProcess()
 		BYTE diks[256]; // キーボードの押下情報
 		pKeyDevice->GetDeviceState(sizeof(diks), &diks);
 
-		if (diks[DIK_LEFT] & 0x80) //そのキーに対応した要素に値が入る
+		FLOAT speed = 4.0f;
+		if (diks[DIK_LEFT] & 0x80) // 左移動
 		{
-			if ((Position[0][3].y - Position[0][1].y) * )
-			{
-				for (int i = 0; i < 4; i++)
-				{
-					Position[0][i].x -= 4;
-				}
-			}
+			Move_Left(speed, Pos_Plane, Pos_Bomb);
 		}
-		if (diks[DIK_RIGHT] & 0x80)
+
+		if (diks[DIK_RIGHT] & 0x80) // 右移動
 		{
-			if (Position[0][2].x < 625)
-			{
-				for (int i = 0; i < 4; i++)
-				{
-					Position[0][i].x += 4;
-				}
-			}
+			Move_Right(speed, Pos_Plane, Pos_Bomb);
 		}
-		if (diks[DIK_UP] & 0x80)
+
+		if (diks[DIK_UP] & 0x80) // 上移動
 		{
-			if (Position[0][0].y > -30)
-			{
-				for (int i = 0; i < 4; i++)
-				{
-					Position[0][i].y -= 4;
-				}
-			}
+			Move_Up(speed, Pos_Plane, Pos_Bomb);
 		}
-		if (diks[DIK_DOWN] & 0x80)
+
+		if (diks[DIK_DOWN] & 0x80) // 下移動
 		{
-			if (Position[0][2].y < 470)
+			if(Pos_Plane[2].y < 440)
 			{
-				for (int i = 0; i < 4; i++)
-				{
-					Position[0][i].y += 4;
-				}
+				Move_Down(speed, Pos_Plane, Pos_Bomb);
 			}
 		}
 	}
@@ -261,12 +252,11 @@ VOID DrawRectangle()
 	if (SUCCEEDED(pDevice->BeginScene()))
 	{
 		pDevice->SetFVF(FVF_CUSTOM);
-		InitRender(); // STEP5.h参照
-		for (int i = 0; i < CharacterMax; i++)
-		{
-			pDevice->SetTexture(0, pTexture[i]);
-			pDevice->DrawPrimitiveUP(D3DPT_TRIANGLEFAN, 2, Position[i], sizeof(CUSTOM_VERTEX));
-		}
+		InitRender(); // GameLib_Texture参照
+		pDevice->SetTexture(0, pTexture[0]);
+		pDevice->DrawPrimitiveUP(D3DPT_TRIANGLEFAN, 2, Pos_Plane, sizeof(CUSTOMVERTEX));
+		pDevice->SetTexture(0, pTexture[1]);
+		pDevice->DrawPrimitiveUP(D3DPT_TRIANGLEFAN, 2, Pos_Bomb, sizeof(CUSTOMVERTEX));
 		pDevice->EndScene();
 	}
 }
@@ -274,13 +264,13 @@ VOID DrawRectangle()
 // 作成したDirectXオブジェクトの開放
 VOID FreeDx()
 {
-	SAFE_RELEASE(pDevice);
-	SAFE_RELEASE(pD3d);
-	pKeyDevice->Unacquire(); // アクセス権を失う
 	for (int i = 0; i < CharacterMax; i++)
 	{
 		SAFE_RELEASE(pTexture[i]);
 	}
+	SAFE_RELEASE(pDevice);
+	SAFE_RELEASE(pD3d);
+	pKeyDevice->Unacquire(); // アクセス権を失う
 	SAFE_RELEASE(pKeyDevice);
 	SAFE_RELEASE(pDinput);
 }

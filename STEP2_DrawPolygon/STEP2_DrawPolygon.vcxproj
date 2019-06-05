@@ -71,11 +71,11 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <IncludePath>C:\Users\rikaz\Desktop\DirectX\Include;$(IncludePath)</IncludePath>
-    <LibraryPath>C:\Users\rikaz\Desktop\DirectX\Lib\x86;$(LibraryPath)</LibraryPath>
+    <LibraryPath>C:\Users\rikaz\Desktop\Lib\x86;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <IncludePath>C:\Users\rikaz\Desktop\DirectX\Include;$(IncludePath)</IncludePath>
-    <LibraryPath>C:\Users\rikaz\Desktop\DirectX\Lib\x86;$(LibraryPath)</LibraryPath>
+    <LibraryPath>C:\Users\rikaz\Desktop\Lib\x86;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
