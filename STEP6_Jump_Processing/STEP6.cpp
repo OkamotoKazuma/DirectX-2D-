@@ -43,7 +43,7 @@ INT WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR szStr, INT icmdSh
 	RegisterClassEx(&wndclass);
 
 	HWND hWnd = CreateWindow(szAppName, szAppName, WS_OVERLAPPEDWINDOW,
-		0, 0, 640, 480, NULL, NULL, hInst, NULL);
+		0, 0, 640, 520, NULL, NULL, hInst, NULL);
 	ShowWindow(hWnd, SW_SHOW);
 	UpdateWindow(hWnd);
 
@@ -184,10 +184,10 @@ HRESULT InitDinput(HWND hWnd)
 
 CUSTOMVERTEX Pos_BlackBomb[4] = {
 	// 黒爆弾
-			{170.0f, 110.0f, 0.0f, 1.0f, D3DCOLOR_RGBA(255, 255, 255, 0), 0.0f, 0.0f}, //左上
-			{270.0f, 110.0f, 0.0f, 1.0f, D3DCOLOR_RGBA(255, 255, 255, 0), 0.16f, 0.0f}, //右上
-			{270.0f, 210.0f, 0.0f, 1.0f, D3DCOLOR_RGBA(255, 255, 255, 0), 0.16f, 0.1f}, //右下
-			{170.0f, 210.0f, 0.0f, 1.0f, D3DCOLOR_RGBA(255, 255, 255, 0), 0.0f, 0.1f}  //左下
+			{170.0f, 380.0f, 0.0f, 1.0f, D3DCOLOR_RGBA(255, 255, 255, 0), 0.0f, 0.0f}, //左上
+			{270.0f, 380.0f, 0.0f, 1.0f, D3DCOLOR_RGBA(255, 255, 255, 0), 0.16f, 0.0f}, //右上
+			{270.0f, 480.0f, 0.0f, 1.0f, D3DCOLOR_RGBA(255, 255, 255, 0), 0.16f, 0.1f}, //右下
+			{170.0f, 480.0f, 0.0f, 1.0f, D3DCOLOR_RGBA(255, 255, 255, 0), 0.0f, 0.1f}  //左下
 };
 
 CUSTOMVERTEX Pos_GoldBomb[4] = {
@@ -198,13 +198,15 @@ CUSTOMVERTEX Pos_GoldBomb[4] = {
 			{50.0f, 210.0f, 0.0f, 1.0f, D3DCOLOR_RGBA(255, 255, 255, 0), 0.0f, 0.4f}
 };
 
+AccMotion BlackBomb = { 20.0f, 0.5f, TRUE};
+
 // アプリケーション処理関数
 VOID AppProcess()
 {
 	DrawRectangle();
 
-	INT G_KeyInfo[] = { DIK_UP, DIK_DOWN, DIK_LEFT, DIK_RIGHT };
-	Input_State G_InputState[KEY_INFO::MAX_KEY_INFO];
+	//INT g_KeyInfo[] = { DIK_UP, DIK_DOWN, DIK_LEFT, DIK_RIGHT };
+	//Input_State g_InputState[KEY_INFO::MAX_KEY_INFO];
 
 	// キーボードで押されているキーを調べ、対応する方向に移動させる
 	HRESULT hr = pKeyDevice->Acquire();
@@ -214,8 +216,6 @@ VOID AppProcess()
 		pKeyDevice->GetDeviceState(sizeof(diks), &diks);
 
 		FLOAT speed = 4.0f;
-		FLOAT velocity = 0.5f; // 初速度
-		FLOAT acceleration = 0.01; // 加速度(減速度)
 
 		if (diks[DIK_LEFT] & 0x80) // 左移動
 		{
@@ -229,12 +229,27 @@ VOID AppProcess()
 
 		if (diks[DIK_UP] & 0x80) // 上へのジャンプ
 		{
-			Jump(velocity, acceleration, Pos_BlackBomb);
+			if (BlackBomb.JumpFlag == FALSE)
+			{
+				Dec_Up(BlackBomb.I_Speed, BlackBomb.Acc, Pos_BlackBomb, Pos_GoldBomb);
+				if (BlackBomb.I_Speed < 0.0f)
+				{
+					BlackBomb.JumpFlag = TRUE;
+				}
+			}
+			else if (BlackBomb.JumpFlag == TRUE)
+			{
+				Acc_Down(BlackBomb.I_Speed, BlackBomb.Acc, Pos_BlackBomb, Pos_GoldBomb);
+				if (Pos_BlackBomb[2].y >= 480)
+				{
+					BlackBomb.JumpFlag = FALSE;
+				}
+			}
 		}
 
 		if (diks[DIK_DOWN] & 0x80) // 下移動
 		{
-			if (Pos_BlackBomb[2].y < 440)
+			if (Pos_BlackBomb[2].y < 480)
 			{
 				Move_Down(speed, Pos_BlackBomb, Pos_GoldBomb);
 			}

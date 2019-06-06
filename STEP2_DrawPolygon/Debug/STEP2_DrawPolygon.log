@@ -1,1 +1,3 @@
-﻿  STEP2_DrawPolygon.vcxproj -> C:\Users\rikaz\Desktop\Exercise\Debug\STEP2_DrawPolygon.exe
+﻿  STEP2.cpp
+  C:\Users\rikaz\Desktop\Exercise\STEP2_DrawPolygon\STEP2.cpp(125) : warning C4715: 'InitD3d': 値を返さないコントロール パスがあります。
+  STEP2_DrawPolygon.vcxproj -> C:\Users\rikaz\Desktop\Exercise\Debug\STEP2_DrawPolygon.exe

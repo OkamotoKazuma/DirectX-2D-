@@ -71,11 +71,11 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <IncludePath>C:\Users\rikaz\Desktop\GameLib\GameLib_Move;C:\Users\rikaz\Desktop\GameLib\GameLib_Texture;C:\Users\rikaz\Desktop\Include;$(IncludePath)</IncludePath>
-    <LibraryPath>C:\Users\rikaz\Desktop\GameLib\GameLib_Move;C:\Users\rikaz\Desktop\Lib\x86;$(LibraryPath)</LibraryPath>
+    <LibraryPath>C:\Users\rikaz\Desktop\GameLib\Debug;C:\Users\rikaz\Desktop\Lib\x86;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <IncludePath>C:\Users\rikaz\Desktop\GameLib\GameLib_Move;C:\Users\rikaz\Desktop\GameLib\GameLib_Texture;C:\Users\rikaz\Desktop\Include;$(IncludePath)</IncludePath>
-    <LibraryPath>C:\Users\rikaz\Desktop\GameLib\GameLib_Move;C:\Users\rikaz\Desktop\Lib\x86;$(LibraryPath)</LibraryPath>
+    <LibraryPath>C:\Users\rikaz\Desktop\GameLib\Debug;C:\Users\rikaz\Desktop\Lib\x86;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>

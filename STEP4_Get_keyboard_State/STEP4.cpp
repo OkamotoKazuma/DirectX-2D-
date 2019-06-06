@@ -195,11 +195,11 @@ VOID InitRender()
 struct CUSTOM_VERTEX
 {
 	// 座標
-	float x, y, z, rhw;
+	FLOAT x, y, z, rhw;
 	// 頂点の色
 	DWORD color;
 	// テクスチャ座標
-	float tu, tv;
+	FLOAT tu, tv;
 };
 
 #define FVF_CUSTOM ( D3DFVF_XYZRHW | D3DFVF_DIFFUSE | D3DFVF_TEX1 )

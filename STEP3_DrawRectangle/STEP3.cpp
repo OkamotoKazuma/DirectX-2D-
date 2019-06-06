@@ -151,11 +151,11 @@ VOID InitRender()
 struct CUSTOM_VERTEX
 {
 	// 座標
-	float x, y, z, rhw;
+	FLOAT x, y, z, rhw;
 	// 頂点の色
 	DWORD color;
 	// テクスチャ座標
-	float tu, tv;
+	FLOAT tu, tv;
 };
 
 #define FVF_CUSTOM ( D3DFVF_XYZRHW | D3DFVF_DIFFUSE | D3DFVF_TEX1 )
@@ -163,7 +163,7 @@ struct CUSTOM_VERTEX
 CUSTOM_VERTEX Position[] = {
 			{170.0f, 110.0f, 0.0f, 1.0f, D3DCOLOR_RGBA(255,255,255,0), 0.0f, 0.0f}, //左上
 			{470.0f, 110.0f, 0.0f, 1.0f, D3DCOLOR_RGBA(255,255,255,0), 1.0f, 0.0f}, //右上
-			{470.0f, 410.0f, 0.0f, 1.0f, D3DCOLOR_RGBA(255,255,255,0), 1.0f, 1.0f}, //右下f
+			{470.0f, 410.0f, 0.0f, 1.0f, D3DCOLOR_RGBA(255,255,255,0), 1.0f, 1.0f}, //右下
 			{170.0f, 410.0f, 0.0f, 1.0f, D3DCOLOR_RGBA(255,255,255,0), 0.0f, 1.0f}  //左下
 };
 
