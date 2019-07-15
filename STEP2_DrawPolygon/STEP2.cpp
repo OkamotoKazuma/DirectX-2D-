@@ -1,7 +1,7 @@
-#include <windows.h>
+﻿#include <windows.h>
 #include <d3dx9.h>
 
-#define SAFE_RELEASE(p) { if(p) { (p)->Release(); (p) = NULL; } } // �������̊J��
+#define SAFE_RELEASE(p) { if(p) { (p)->Release(); (p) = NULL; } } // メモリの開放
 
 LPDIRECT3D9 pD3d;
 LPDIRECT3DDEVICE9 pDevice;
@@ -42,11 +42,11 @@ INT WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR szStr, INT iCmdSh
 		return 0;
 	}
 
-	// ���C�����[�v
-	DWORD SyncPrev = timeGetTime(); //�ŏ��̎���
+	// メインループ
+	DWORD SyncPrev = timeGetTime(); //最初の時刻
 	DWORD SyncCurr;
 	ZeroMemory(&msg, sizeof(msg));
-	timeBeginPeriod(1); //�^�C�}�[�̍ŏ����x��ݒ�
+	timeBeginPeriod(1); //タイマーの最小精度を設定
 	while (msg.message != WM_QUIT)
 	{
 		if (PeekMessage(&msg, NULL, 0U, 0U, PM_REMOVE))
@@ -56,8 +56,8 @@ INT WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR szStr, INT iCmdSh
 		}
 		else
 		{
-			SyncCurr = timeGetTime(); //�Ō�̎���
-			if (SyncCurr - SyncPrev >= 1000 / 60) // �t���[���ҋ@
+			SyncCurr = timeGetTime(); //最後の時刻
+			if (SyncCurr - SyncPrev >= 1000 / 60) // フレーム待機
 			{
 				DrawPolygon();
 				SyncPrev = SyncCurr;
@@ -65,12 +65,12 @@ INT WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR szStr, INT iCmdSh
 		}
 		Sleep(1);
 	}
-	timeEndPeriod(1); //�^�C�}�[�̍ŏ����x��߂�
-	FreeDx(); // �I�u�W�F�N�g�̊J��
+	timeEndPeriod(1); //タイマーの最小精度を戻す
+	FreeDx(); // オブジェクトの開放
 	return (INT)msg.wParam;
 }
 
-// �E�B���h�v���V�[�W���֐�
+// ウィンドプロシージャ関数
 LRESULT CALLBACK WndProc(HWND hWnd, UINT iMsg, WPARAM wParam, LPARAM lParam)
 {
 	switch (iMsg)
@@ -90,73 +90,73 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT iMsg, WPARAM wParam, LPARAM lParam)
 	return DefWindowProc(hWnd, iMsg, wParam, lParam);
 }
 
-// �_�C���N�g3D�̏������֐�
+// ダイレクト3Dの初期化関数
 HRESULT InitD3d(HWND hWnd)
 {
-	//�uDirect3D�v�I�u�W�F�N�g�̍쐬
+	//「Direct3D」オブジェクトの作成
 	if (NULL == (pD3d = Direct3DCreate9(D3D_SDK_VERSION)))
 	{
-		MessageBox(0, "Direct3D�̍쐬�Ɏ��s���܂���", "", MB_OK);
+		MessageBox(0, "Direct3Dの作成に失敗しました", "", MB_OK);
 		return E_FAIL;
 	}
 
-	//�uDIRECT3D�f�o�C�X�v�I�u�W�F�N�g�̍쐬
+	//「DIRECT3Dデバイス」オブジェクトの作成
 	D3DPRESENT_PARAMETERS d3dpp;
 	ZeroMemory(&d3dpp, sizeof(d3dpp));
 
-	d3dpp.BackBufferFormat = D3DFMT_UNKNOWN; //�t�H�[�}�b�g�Ȃ�
+	d3dpp.BackBufferFormat = D3DFMT_UNKNOWN; //フォーマットなし
 	d3dpp.BackBufferCount = 1;
 	d3dpp.SwapEffect = D3DSWAPEFFECT_DISCARD;
-	d3dpp.Windowed = TRUE; //�A�v���P�[�V�����̕\���`��
+	d3dpp.Windowed = TRUE; //アプリケーションの表示形式
 
-	if (FAILED(pD3d->CreateDevice(D3DADAPTER_DEFAULT, D3DDEVTYPE_HAL, hWnd, // HAL:�n�[�h�E�F�A
+	if (FAILED(pD3d->CreateDevice(D3DADAPTER_DEFAULT, D3DDEVTYPE_HAL, hWnd, // HAL:ハードウェア
 		D3DCREATE_MIXED_VERTEXPROCESSING,
 		&d3dpp, &pDevice)))
 	{
-		MessageBox(0, "HAL���[�h��DIRECT3D�f�o�C�X���쐬�ł��܂���\nREF���[�h�ōĎ��s���܂�", NULL, MB_OK);
-		if (FAILED(pD3d->CreateDevice(D3DADAPTER_DEFAULT, D3DDEVTYPE_REF, hWnd, // REF:�\�t�g�E�F�A
+		MessageBox(0, "HALモードでDIRECT3Dデバイスを作成できません\nREFモードで再試行します", NULL, MB_OK);
+		if (FAILED(pD3d->CreateDevice(D3DADAPTER_DEFAULT, D3DDEVTYPE_REF, hWnd, // REF:ソフトウェア
 			D3DCREATE_MIXED_VERTEXPROCESSING,
 			&d3dpp, &pDevice)))
 		{
-			MessageBox(0, "DIRECT3D�f�o�C�X�̍쐬�Ɏ��s���܂���", NULL, MB_OK);
+			MessageBox(0, "DIRECT3Dデバイスの作成に失敗しました", NULL, MB_OK);
 			return E_FAIL;
 		}
 	}
 }
 
-// �|���S���̐ݒ�
-// ���_���
+// ポリゴンの設定
+// 頂点情報
 struct CUSTOM_VERTEX
 {
-	// ���W
+	// 座標
 	float x, y, z, rhw;
-	// ���_�̐F
+	// 頂点の色
 	DWORD color;
 };
 
 #define FVF_CUSTOM ( D3DFVF_XYZRHW | D3DFVF_DIFFUSE )
 
 CUSTOM_VERTEX Position[] = {
-			{170.0f, 110.0f, 0.0f, 1.0f, 0xffffffff}, // ����
-			{470.0f, 110.0f, 0.0f, 1.0f, 0xffffffff}, // �E��
-			{170.0f, 410.0f, 0.0f, 1.0f, 0xffffffff}  // ����
+			{170.0f, 110.0f, 0.0f, 1.0f, 0xffffffff}, // 左上
+			{470.0f, 110.0f, 0.0f, 1.0f, 0xffffffff}, // 右上
+			{170.0f, 410.0f, 0.0f, 1.0f, 0xffffffff}  // 左下
 };
 
-// �|���S����`�悷��֐�
+// ポリゴンを描画する関数
 VOID DrawPolygon()
 {
 	pDevice->Clear(0, NULL, D3DCLEAR_TARGET, D3DCOLOR_XRGB(100, 100, 100), 1.0f, 0);
-	if (SUCCEEDED(pDevice->BeginScene())) //�����������ǂ���
+	if (SUCCEEDED(pDevice->BeginScene())) //成功したかどうか
 	{
 		pDevice->SetFVF(FVF_CUSTOM);
-		// pDevice->DrawPrimitiveUP(�|���S���̕`����@,�|���S���̐�,���_�f�[�^�̃|�C���^,���_�f�[�^�̃T�C�Y)
+		// pDevice->DrawPrimitiveUP(ポリゴンの描画方法,ポリゴンの数,頂点データのポインタ,頂点データのサイズ)
 		pDevice->DrawPrimitiveUP(D3DPT_TRIANGLEFAN, 1, Position, sizeof(CUSTOM_VERTEX));
 		pDevice->EndScene();
 	}
-	pDevice->Present(NULL, NULL, NULL, NULL); //��ʂ̍X�V
+	pDevice->Present(NULL, NULL, NULL, NULL); //画面の更新
 }
 
-// �쐬����DirectX�I�u�W�F�N�g�̊J��
+// 作成したDirectXオブジェクトの開放
 VOID FreeDx()
 {
 	SAFE_RELEASE(pDevice);

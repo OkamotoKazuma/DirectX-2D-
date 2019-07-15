@@ -1,4 +1,4 @@
-#include <windows.h>
+﻿#include <windows.h>
 #include <d3dx9.h>
 
 LRESULT CALLBACK WndProc(HWND, UINT, WPARAM, LPARAM);
@@ -11,42 +11,42 @@ INT WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR szStr, INT iCmdSh
 
 	wndclass.cbSize = sizeof(wndclass);
 	wndclass.style = CS_HREDRAW | CS_VREDRAW;
-	wndclass.lpfnWndProc = WndProc; //�E�B���h�v���V�[�W���ւ̃|�C���^
-	wndclass.cbClsExtra = 0; //�E�B���h�N���X�\���̂ւ̒ǉ��̃o�C�g��
-	wndclass.cbWndExtra = 0; //�E�B���h�E�C���X�^���X�ւ̒ǉ��̃o�C�g��
-	wndclass.hInstance = hInst; //wndproc���܂ރC���X�^���X�ւ̑�1�����̃n���h��
-	wndclass.hIcon = LoadIcon(NULL, IDI_APPLICATION); //�N���X�A�C�R���̃n���h��
-	wndclass.hCursor = LoadCursor(NULL, IDC_ARROW); //�N���X�J�[�\���ւ̃n���h��
-	wndclass.hbrBackground = (HBRUSH)GetStockObject(BLACK_BRUSH); //�N���X�w�i�ւ̃n���h��
-	wndclass.lpszMenuName = NULL; //�N���X���j���[�̃��\�[�X��
-	wndclass.lpszClassName = szAppName; //�E�B���h�E�N���X���̎w��
+	wndclass.lpfnWndProc = WndProc; //ウィンドプロシージャへのポインタ
+	wndclass.cbClsExtra = 0; //ウィンドクラス構造体への追加のバイト数
+	wndclass.cbWndExtra = 0; //ウィンドウインスタンスへの追加のバイト数
+	wndclass.hInstance = hInst; //wndprocを含むインスタンスへの第1引数のハンドル
+	wndclass.hIcon = LoadIcon(NULL, IDI_APPLICATION); //クラスアイコンのハンドル
+	wndclass.hCursor = LoadCursor(NULL, IDC_ARROW); //クラスカーソルへのハンドル
+	wndclass.hbrBackground = (HBRUSH)GetStockObject(BLACK_BRUSH); //クラス背景へのハンドル
+	wndclass.lpszMenuName = NULL; //クラスメニューのリソース名
+	wndclass.lpszClassName = szAppName; //ウィンドウクラス名の指定
 	wndclass.hIconSm = LoadIcon(NULL, IDI_APPLICATION);
 
-	RegisterClassEx(&wndclass); // �\���̂̓o�^
-	HWND hWnd = CreateWindow(szAppName, szAppName, WS_OVERLAPPEDWINDOW, // �E�B���h�E���, �\�����镶��, �E�B���h�E�̃X�^�C��
-		0, 0, 640, 480, NULL, NULL, hInst, NULL); // �\���ʒu(0,0,640,480), �E�B���h�E�T�C�Y(width,height), �C���X�^���X�n���h��
-	ShowWindow(hWnd, SW_SHOW); // �����E�B���h�E
+	RegisterClassEx(&wndclass); // 構造体の登録
+	HWND hWnd = CreateWindow(szAppName, szAppName, WS_OVERLAPPEDWINDOW, // ウィンドウ情報, 表示する文字, ウィンドウのスタイル
+		0, 0, 640, 480, NULL, NULL, hInst, NULL); // 表示位置(0,0,640,480), ウィンドウサイズ(width,height), インスタンスハンドル
+	ShowWindow(hWnd, SW_SHOW); // 初期ウィンドウ
 	UpdateWindow(hWnd);
 
-	//���C�����[�v
+	//メインループ
 	ZeroMemory(&msg, sizeof(msg));
-	timeBeginPeriod(1); //�^�C�}�[�̍ŏ����x��ݒ�
+	timeBeginPeriod(1); //タイマーの最小精度を設定
 	while (msg.message != WM_QUIT)
 	{
-		//if(PeekMessage(MSG�|�C���^, ���b�Z�[�W�̎擾, �ŏ��̃��b�Z�[�W�̒l, �Ō�̃��b�Z�[�W�̒l, �������@)
+		//if(PeekMessage(MSGポインタ, メッセージの取得, 最初のメッセージの値, 最後のメッセージの値, 処理方法)
 		if (PeekMessage(&msg, NULL, 0U, 0U, PM_REMOVE))
 		{
-			TranslateMessage(&msg); //�������b�Z�[�W�ɕϊ��{���b�Z�[�W�L���[�Ƀ|�X�g
-			DispatchMessage(&msg); //window procedure�Ƀ��b�Z�[�W�𑗂�
+			TranslateMessage(&msg); //文字メッセージに変換＋メッセージキューにポスト
+			DispatchMessage(&msg); //window procedureにメッセージを送る
 		}
 		Sleep(1);
 	}
-	timeEndPeriod(1); //�^�C�}�[�̍ŏ����x��߂�
+	timeEndPeriod(1); //タイマーの最小精度を戻す
 	return (INT)msg.wParam;
 }
 
-// �E�B���h�v���V�[�W���֐�
-// ��M���b�Z�[�W�̑Ή�(���b�Z�[�W�Ώۂ̃E�B���h�E,���b�Z�[�W���e,���b�Z�[�W�̏ڍ�,���b�Z�[�W�̏ڍ�)
+// ウィンドプロシージャ関数
+// 受信メッセージの対応(メッセージ対象のウィンドウ,メッセージ内容,メッセージの詳細,メッセージの詳細)
 LRESULT CALLBACK WndProc(HWND hWnd, UINT iMsg, WPARAM wParam, LPARAM lParam)
 {
 	switch (iMsg)

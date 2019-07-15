@@ -1,0 +1,3 @@
+﻿  STEP5.cpp
+  C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Include\dinput.h: DIRECTINPUT_VERSION undefined. Defaulting to version 0x0800
+C:\Users\rikaz\Desktop\Exercise\STEP5_Collision_jugment\STEP5.cpp(4,10): error C1083:  include ファイルを開けません。'GameLib_Move.h':No such file or directory
